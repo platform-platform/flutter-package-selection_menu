@@ -422,25 +422,31 @@ class SelectionMenuState<T> extends State<SelectionMenu<T>>
         },
       );
 
-      Widget front = CompositedTransformFollower(
-        link: _triggerAndMenuLayerLink,
-        child: _componentsConfiguration.animationComponent
-            .build(AnimationComponentData(
-          context: context,
-          constraints: menuPositionAndSize.constraints,
-          child: listViewMenu,
-          menuState: _menuState,
-          menuAnimationDurations:
-              _componentsConfiguration.menuAnimationDurations,
-          menuAnimationCurves: _componentsConfiguration.menuAnimationCurves,
-          tickerProvider: this,
-          selectedItem: _currentSelectedItem,
-          closed: _onMenuClosedCallback,
-          opened: _onMenuOpenedCallback,
-          willCloseAfter: _onMenuWillCloseAfterCallback,
-          willOpenAfter: _onMenuWillOpenAfterCallback,
-        )),
-        offset: menuPositionAndSize.positionOffset,
+      final positionOffset = menuPositionAndSize.positionOffset;
+
+      Widget front = Positioned(
+        top: positionOffset.dy,
+        left: positionOffset.dx,
+        child: CompositedTransformFollower(
+          link: _triggerAndMenuLayerLink,
+          child: _componentsConfiguration.animationComponent
+              .build(AnimationComponentData(
+            context: context,
+            constraints: menuPositionAndSize.constraints,
+            child: listViewMenu,
+            menuState: _menuState,
+            menuAnimationDurations:
+                _componentsConfiguration.menuAnimationDurations,
+            menuAnimationCurves: _componentsConfiguration.menuAnimationCurves,
+            tickerProvider: this,
+            selectedItem: _currentSelectedItem,
+            closed: _onMenuClosedCallback,
+            opened: _onMenuOpenedCallback,
+            willCloseAfter: _onMenuWillCloseAfterCallback,
+            willOpenAfter: _onMenuWillOpenAfterCallback,
+          )),
+          offset: positionOffset,
+        ),
       );
 
       children.add(front);
